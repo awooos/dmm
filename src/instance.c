@@ -27,13 +27,12 @@ void *dmm_instance_add_memory_region(void *instance, void *start, size_t length)
     if (length == 0) {
         dmm_panic("memory region has size of zero");
     }
+    if (length <= sizeof(DMM_MallocHeader)) {
+        dmm_panic("memory region is too small for both header and content");
+    }
 
     header->magic = DMM_HEADER_MAGIC;
     header->size = length - sizeof(DMM_MallocHeader);
-    if (header->size <= 0) {
-        dmm_panic("memory region is too small for header");
-    }
-
     header->used = 0;
     header->data = (void*)(header + 1);
     header->next = DMM_UNASSIGNED_REGION;
