@@ -7,7 +7,7 @@
 #include "header.h"
 #include "instance.h"
 
-DMM_MallocHeader *dmm_global_instance = DMM_UNASSIGNED_REGION;
+void *dmm_global_instance = NULL;
 
 DMM_PanicFn *dmm_pvt_panic = NULL;
 
