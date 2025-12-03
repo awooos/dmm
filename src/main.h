@@ -18,6 +18,4 @@ typedef struct dmm_memory_manager_functions_s {
     DMM_ReallocFn *realloc;
 } DMM_MemoryManagerFunctions;
 
-DMM_MallocHeader *dmm_get_first_free_chunk(size_t size);
-
 #endif

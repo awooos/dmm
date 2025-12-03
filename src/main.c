@@ -29,11 +29,6 @@ void dmm_add_memory_region(void *start, size_t length)
     }
 }
 
-DMM_MallocHeader *dmm_get_first_free_chunk(size_t size)
-{
-    return dmm_instance_get_first_free_chunk(dmm_global_instance, size);
-}
-
 void *dmm_malloc_(size_t size, const char function[], const char filename[],
         size_t line)
 {
