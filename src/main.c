@@ -24,7 +24,7 @@ void dmm_add_memory_region(void *start, size_t length)
         dmm_panic("expected result to be non-NULL");
     }
 
-    if (dmm_global_instance == DMM_UNASSIGNED_REGION || dmm_global_instance == NULL) {
+    if (dmm_global_instance == NULL) {
         dmm_global_instance = result;
     }
 }

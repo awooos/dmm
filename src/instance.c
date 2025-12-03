@@ -58,14 +58,14 @@ void *dmm_instance_add_memory_region(void *instance, void *start, size_t length)
 
     header->used = 0;
     header->data = (void*)(header + 1);
-    header->next = DMM_UNASSIGNED_REGION;
+    header->next = NULL;
     if (instance == NULL) {
         header->instance = start;
     } else {
         header->instance = instance;
     }
 
-    if (instance != DMM_UNASSIGNED_REGION && instance != NULL) {
+    if (instance != NULL) {
         DMM_MallocHeader *last = (DMM_MallocHeader *)instance;
 
         while (1) {
@@ -73,7 +73,7 @@ void *dmm_instance_add_memory_region(void *instance, void *start, size_t length)
                 dmm_panic("memory region header had invalid magic");
             }
 
-            if (last->next == DMM_UNASSIGNED_REGION) {
+            if (last->next == NULL) {
                 last->next = header;
                 break;
             }
@@ -90,7 +90,7 @@ void *dmm_instance_add_memory_region(void *instance, void *start, size_t length)
 DMM_MallocHeader *dmm_instance_get_first_free_chunk(void *instance, size_t size)
 {
     DMM_MallocHeader *chunk = (DMM_MallocHeader *)instance;
-    if (chunk == DMM_UNASSIGNED_REGION || chunk == NULL) {
+    if (chunk == NULL) {
         return NULL;
     }
 
@@ -108,7 +108,7 @@ DMM_MallocHeader *dmm_instance_get_first_free_chunk(void *instance, size_t size)
         }
 
         chunk = chunk->next;
-        if (chunk == DMM_UNASSIGNED_REGION) {
+        if (chunk == NULL) {
             return NULL;
         }
     }
