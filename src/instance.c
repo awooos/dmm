@@ -50,11 +50,12 @@ void *dmm_instance_add_memory_region(void *instance, void *start, size_t length)
         dmm_panic("cannot add NULL memory region");
     }
 
-    header->magic = DMM_HEADER_MAGIC;
-    header->size = length - sizeof(DMM_MallocHeader);
-    if (header->size <= 0) {
+    if (length < sizeof(DMM_MallocHeader)) {
         dmm_panic("memory region is too small for header");
     }
+
+    header->magic = DMM_HEADER_MAGIC;
+    header->size = length - sizeof(DMM_MallocHeader);
 
     header->used = 0;
     header->data = (void*)(header + 1);
