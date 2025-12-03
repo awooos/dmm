@@ -8,7 +8,7 @@ TEST_SOURCES := test/instance_test.c test/main_test.c test/main.c
 CINCLUDES := -Ibuild/deps/tinker/include -Iinclude
 
 CFLAGS := ${CFLAGS} -std=c11 -pedantic-errors \
-		  -Wall -Wextra -Wconversion -Wcast-qual
+		  -Wall -Wextra -Wconversion -Wcast-qual -g
 
 all: build/dmm-test
 
@@ -24,10 +24,20 @@ build/dmm-test: $(SOURCES)
 test: build/dmm-test
 	./build/dmm-test
 
+build/examples/basic: examples/basic.c
+	mkdir -p build/examples/
+	${CC} ${CFLAGS} ${CINCLUDES} ${SOURCES} $< -o $@
+
+build/examples/instance: examples/instance.c
+	mkdir -p build/examples/
+	${CC} ${CFLAGS} ${CINCLUDES} ${SOURCES} $< -o $@
+
+examples: build/examples/basic build/examples/instance
+
 lint: build-deps
 	clang-check ${SOURCES} -- ${CINCLUDES}
 
 clean:
 	rm -rf build
 
-.PHONY: all clean test build-deps
+.PHONY: all clean test examples build-deps
