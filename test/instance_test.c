@@ -11,7 +11,7 @@ void test_dmm_instance_add_region(void)
     size_t length = 128;
 
     void *region = dmm_malloc(length);
-    tinker_assert(region != NULL); // sanity check
+    tinker_assert(region != NULL);
 
     void *result = dmm_instance_add_memory_region(test_instance, region, length);
     tinker_assert(result != NULL);
