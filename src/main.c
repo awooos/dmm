@@ -20,10 +20,12 @@ void dmm_add_memory_region(void *start, size_t length)
 {
     void *result = dmm_instance_add_memory_region(dmm_global_instance, start, length);
 
+    if (result == NULL) {
+        dmm_panic("expected result to be non-NULL");
+    }
+
     if (dmm_global_instance == DMM_UNASSIGNED_REGION || dmm_global_instance == NULL) {
-        if (result != DMM_UNASSIGNED_REGION && result != NULL) {
-            dmm_global_instance = result;
-        }
+        dmm_global_instance = result;
     }
 }
 
