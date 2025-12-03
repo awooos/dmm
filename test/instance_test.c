@@ -8,7 +8,7 @@ static void *test_instance = NULL;
 
 void test_dmm_instance_add_region(void)
 {
-    size_t length = 128;
+    size_t length = 128 + sizeof(DMM_MallocHeader);
 
     void *region = dmm_malloc(length);
     tinker_assert(region != NULL);
