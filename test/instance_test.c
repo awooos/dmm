@@ -4,17 +4,16 @@
 #include <dmm_instance.h>
 #include "../src/header.h"
 
-static DMM_MallocHeader *test_instance = DMM_UNASSIGNED_REGION;
+static void *test_instance = NULL;
 
 void test_dmm_instance_add_region(void)
 {
-    size_t length = 128;
+    size_t length = 128 + sizeof(DMM_MallocHeader);
 
     void *region = dmm_malloc(length);
-    tinker_assert(region != NULL); // sanity check
+    tinker_assert(region != NULL);
 
     void *result = dmm_instance_add_memory_region(test_instance, region, length);
-    tinker_assert(result != DMM_UNASSIGNED_REGION);
     tinker_assert(result != NULL);
     test_instance = result;
 

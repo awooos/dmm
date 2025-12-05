@@ -7,7 +7,7 @@
 #include "header.h"
 #include "instance.h"
 
-DMM_MallocHeader *dmm_global_instance = DMM_UNASSIGNED_REGION;
+void *dmm_global_instance = NULL;
 
 DMM_PanicFn *dmm_pvt_panic = NULL;
 
@@ -20,16 +20,13 @@ void dmm_add_memory_region(void *start, size_t length)
 {
     void *result = dmm_instance_add_memory_region(dmm_global_instance, start, length);
 
-    if (dmm_global_instance == DMM_UNASSIGNED_REGION || dmm_global_instance == NULL) {
-        if (result != DMM_UNASSIGNED_REGION && result != NULL) {
-            dmm_global_instance = result;
-        }
+    if (result == NULL) {
+        dmm_panic("expected result to be non-NULL");
     }
-}
 
-DMM_MallocHeader *dmm_get_first_free_chunk(size_t size)
-{
-    return dmm_instance_get_first_free_chunk(dmm_global_instance, size);
+    if (dmm_global_instance == NULL) {
+        dmm_global_instance = result;
+    }
 }
 
 void *dmm_malloc_(size_t size, const char function[], const char filename[],

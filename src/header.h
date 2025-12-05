@@ -4,7 +4,6 @@
 #include <stddef.h>
 
 #define DMM_HEADER_MAGIC 0x99A3E7D6
-#define DMM_UNASSIGNED_REGION NULL
 #define DMM_HEADER_FLAG_TEST ((size_t)1 << 31)
 
 // ASSUMPTION: Function name is less than 64 bytes long.
